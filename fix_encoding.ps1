@@ -1,16 +1,6 @@
-$path = 'C:\Users\ACER\.gemini\antigravity\scratch\upgb-promotion-exam\js\questions.js'
-$content = Get-Content $path -Raw -Encoding UTF8
-
-# Replacements
-$content = $content.Replace('â€¦', '...')
-$content = $content.Replace('â€™', "'")
-$content = $content.Replace('â€“', "-")
-$content = $content.Replace('â€œ', '"')
-$content = $content.Replace('â€', '"') # Covering closing quote if detected as just â€ in some encodings, but mostly â€” is emdash
-$content = $content.Replace('â€˜', "'")
-
-# Additional cleanup if needed
-$content = $content.Replace('â€¦.', '....')
-
-Set-Content $path -Value $content -Encoding UTF8
-Write-Host "Fixed encoding issues in questions.js"
+$files = Get-ChildItem "C:\Users\ACER\.gemini\antigravity\scratch\upgb-promotion-exam\js\*.js"
+foreach ($file in $files) {
+    $content = Get-Content $file.FullName -Raw
+    $content | Set-Content $file.FullName -Encoding utf8
+    Write-Host "Converted $($file.Name) to UTF-8"
+}
